@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io"
 	"strings"
+
+	"gopkg.in/yaml.v3"
 )
 
 // PrintPretty writes a human-readable diff summary to w.
@@ -34,5 +36,12 @@ func printSection(w io.Writer, title string, changes []ControlChange, prefix str
 func PrintJSON(w io.Writer, cs *ChangeSet) error {
 	enc := json.NewEncoder(w)
 	enc.SetIndent("", "  ")
+	return enc.Encode(cs)
+}
+
+// PrintYAML writes the ChangeSet as YAML to w.
+func PrintYAML(w io.Writer, cs *ChangeSet) error {
+	enc := yaml.NewEncoder(w)
+	enc.SetIndent(2)
 	return enc.Encode(cs)
 }
